@@ -1,0 +1,6 @@
+# Serverless directories
+.serverless
+bin
+vendor
+node_modules
+template.yml
