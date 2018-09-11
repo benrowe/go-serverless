@@ -19,16 +19,18 @@ type Request events.APIGatewayProxyRequest
 
 // MyEvent Request Structure
 type MyEvent struct {
-	Name string `json:"name:"`
+	Name string `json:"name"`
 }
 
 // HandleRequest for lambda
 func HandleRequest(ctx context.Context, request Request) (Response, error) {
 	fmt.Println("Request handling started....")
 
+	fmt.Println(request.Body)
+
 	var event MyEvent
 
-	err := json.Unmarshal([]byte(request.Body), event)
+	err := json.Unmarshal([]byte(request.Body), &event)
 	if err != nil {
 		fmt.Println("Unmarshalling Error: ", err)
 		return Response{
@@ -36,6 +38,7 @@ func HandleRequest(ctx context.Context, request Request) (Response, error) {
 			StatusCode: 500,
 		}, nil
 	}
+	fmt.Println(event)
 	var buf bytes.Buffer
 	resp := fmt.Sprintf("Hello, %s", event.Name)
 
